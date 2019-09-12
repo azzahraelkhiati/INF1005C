@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//DESCRIPTION:	PROGRAMME QUI DEMANDE A L'UTILISATEUR D'ENTRER DEUX NOMBRES ET IL VA AFFICHER LE PPCM DE	//
-//				CES DEUX NOMBRES EN UTILISANT UNE FONCTION PPCM(n1,n2).										//
+//DESCRIPTION:	PROGRAMME QUI DEMANDE A L'UTILISATEUR D'ENTRER UN NOMBRE QUI REPRSENTE LA HAUTEUR DU		//
+//				TRIANGLE DONT LE PROGRAMME VA AFFICHER														//
 //																											//
 //FILE:	  Exo6.cpp																							//
 //AUTHOR: Johnatan Gao																						//
@@ -10,40 +10,60 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 using namespace std;
 
-const int VALEUR_INITIAL = 1;
+int main() {
 
-int ppcm(int n1, int n2) {
+	const int POSITION_LIGNE_INITIALE = 1;
+	const int VALEUR_INITIALE_INDICE = 0;
 	
-	bool ppcmTrouve = false;
-	int multiple = VALEUR_INITIAL;
+	int hauteur, positionLigne, indice;
 
-	while (!ppcmTrouve) {
-		
-		if ((n1 * multiple) % n2 == 0) {
-			ppcmTrouve = true;
-		}
-		else {
-			multiple += 1;
-		}
-	
+	ifstream myFile;
+	myFile.open("hauteur.txt");
+
+	if (myFile.is_open()) {
+
+		myFile >> hauteur;
+		myFile.close();
+	}
+	else {
+
+		cout << "Impossible d'ouvrir le fichier" << endl;
 	}
 
-	return n1 * multiple;
+	ofstream triangleFile;
+	triangleFile.open("triangle.txt");
 
+
+	positionLigne = POSITION_LIGNE_INITIALE;
+	while (positionLigne <= hauteur) {
+
+		indice = VALEUR_INITIALE_INDICE;
+
+		while (indice < hauteur - positionLigne) {
+			triangleFile << " ";
+			indice += 1;
+		}
+
+		indice = VALEUR_INITIALE_INDICE;
+
+		while (indice < 2 * positionLigne - 1) {
+			triangleFile << "*";
+			indice += 1;
+		}
+
+		triangleFile << endl;
+		positionLigne += 1;
+
+	}
+
+	triangleFile.close();
+
+	return 0;
 }
-
-
-int main() {
 	
-	int n1, n2;
-
-	cout << "Entrer un nombre n1: " << endl;
-	cin >> n1;
-
-	cout << "Entrer un nombre n2: " << endl;
-	cin >> n2;
-
-	cout << "Le ppcm de " << n1 << " et de " << n2 << " est de: " << ppcm(n1,n2) << endl;
-}
+	

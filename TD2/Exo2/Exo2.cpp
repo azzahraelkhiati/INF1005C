@@ -11,56 +11,45 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <string>
+#include <typeinfo>
 using namespace std;
+
 
 int main() {
 
-	//Initialisation des variables
-	int nombreElements;
-
-	const int VALEUR_INITIALE = 0;
-
-	int cptLongueur = VALEUR_INITIALE, 
-		cptLongueurTmp = VALEUR_INITIALE, 
-		nombreAvant = VALEUR_INITIALE;
-
 	int nombreEntree;
+	string nombre;
 
-	//Entree de l'utilisateur pour le nombre d'elements
-	cout << "Entrer un entier n strictement positif: ";
-	cin >> nombreElements;
+	cout << "Entrer un nombre entre 0 et 999" << endl;
+	cin >> nombreEntree;
 
-	//Verifier si le nombre qui a ete entre est strictement positif
-	while (nombreElements <= 0) {
-		cout << "Vous devez entrer un entier STRICTMENT positif " << endl;
-		cin >> nombreElements;
-	}
+	nombre = to_string(nombreEntree);
 
-	for (int indiceElement = VALEUR_INITIALE; indiceElement < nombreElements; indiceElement++) {
-		cout << "Entrer un nombre faisant partie de la suite" << endl;
+	while (nombre.length() > 3) {
+
+		cout << "Entrer un nombre entre 0 et 999" << endl;
 		cin >> nombreEntree;
 
-		if (indiceElement == 0 || nombreEntree > nombreAvant) {
-			cptLongueurTmp += 1;
+		nombre = to_string(nombreEntree);
+	
+	}
+		if (nombre.length() == 3) {
+			cout << "Nombre aux centaines: " << nombre[0] << endl;
+			cout << "Nombre aux dizaines: " << nombre[1] << endl;
+			cout << "Nombre aux unites: " << nombre[2] << endl;
+		}
+		else if (nombre.length() == 2) {
+			cout << "Nombre aux centaines: 0" << endl;
+			cout << "Nombre aux dizaines: " << nombre[0] << endl;
+			cout << "Nombre aux unites: " << nombre[1] << endl;
 		}
 		else {
-			if (cptLongueurTmp > cptLongueur) {
-				cptLongueur = cptLongueurTmp;
-			}
-
-			cptLongueurTmp = 1;
-
+			cout << "Nombre aux centaines: 0" << endl;
+			cout << "Nombre aux dizaines: 0" << endl;
+			cout << "Nombre aux unites: " << nombre[0] << endl;
 		}
 
-		nombreAvant = nombreEntree;
-	}
-
-	if (cptLongueurTmp > cptLongueur) {
-		cptLongueur = cptLongueurTmp;
-	}
-
-	//Affichage de la longueur de la plus longue suite croissante
-	cout << "La longueur de la plus longue suite croissante est " << cptLongueur << endl;
 
 	return 0;
 

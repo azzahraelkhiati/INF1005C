@@ -15,31 +15,27 @@ using namespace std;
 
 int main() {
 
-	const int VALEUR_INITIALE = 0;
 
 	string texte;
-	int positionTexte = VALEUR_INITIALE;
+	int position;
 
 	cout << "Entrer une phrase: " << endl;
 	getline(cin, texte);
 
-	while (positionTexte + 2 < texte.length()) {
-		
-		if(texte[positionTexte] == 'I' && texte[positionTexte+1] == 'N' && texte[positionTexte + 2] == 'F'){
-			cout << "La position de INF est: " << positionTexte << endl;
-			break;
-		}
-		else {
-		
-			if (positionTexte >= texte.length() - 2) {
-				cout << "Ne s'y trouve pas";
-			}
+	position = texte.find("INF");
 
-			positionTexte += 1;
-		
-		}
-	
+	if (position == -1) {
+		cout << "Ne s'y trouve pas" << endl;
 	}
+	else {
+		cout << "La position de INF dans le texte est : " << position << endl;
+		texte.replace(position, 3 , "LOG");
+		cout << texte << endl;
+	}
+
+	
+
+	
 
 	return  0;
 

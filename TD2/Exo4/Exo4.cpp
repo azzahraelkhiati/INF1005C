@@ -10,41 +10,33 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <cmath>
 using namespace std;
 
-const int VALEUR_INITIALE = 1;
+
 
 double bin(double n, double k) {
 
+	const int VALEUR_INITIALE = 1;
 	double nombreBin = VALEUR_INITIALE;
 
-	while (k < n) {
-		
+	for (k; k < n; k++) {
 		nombreBin *= (k + 1) / (n - k);
-		k += 1;
-	
 	}
 
-	return nombreBin;
+	return ceil(nombreBin);
 }
 
+//for(int i = k
 
 int main() {
 
-	double n, k;
-
-	cout << "Entrer un nombre n (le degre du polynome)" << endl;
-	cin >> n;
-
-	cout << "Entrer un nombre k (le coefficient)" << endl;
-	cin >> k;
-
-	while (k<0 || k >n) {
-		cout << "Entrer un nombre k >= 0 et k <= n" << endl;
-		cin >> k;
-	}
-	
-	cout << bin(n, k) << endl;
+	cout << boolalpha;
+	cout << (252 == bin(10, 5)) << endl;
+	cout << (10 == bin(5, 2)) << endl;
+	cout << (126 == bin(9, 4)) << endl;
+	cout << (4 == bin(4, 1)) << endl;
+	cout << (5005 == bin(15, 9)) << endl;
 
 	return 0;
 
