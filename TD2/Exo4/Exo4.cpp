@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//DESCRIPTION:	PROGRAMME QUI DEMANDE A L'UTILISATEUR D'ENTRER DEUX NOMBRE (N ET K). ENSUITE IL VA FAIRE	//
-//				LE CALCUL POUR TROUVER LES BINOMES DE NEWTON EN UTILISANT UNE FONCTION BIN(N,K)				//
+//DESCRIPTION:	PROGRAMME QUI POSSEDE UNE FONCTION QUI A POUR BUT DE FAIRE LE CALCUL POUR TROUVER LES		//
+//				DE NEWTON. ENSUITE, IL TESTE DANS LA FONCTION MAIN 4 PAIRES DE VALEURS POUR VERIFIER.		//
 //																											//
 //FILE:	  Exo4.cpp																							//
 //AUTHOR: Johnatan Gao																						//
@@ -35,7 +35,6 @@ int main() {
 	cout << (252 == bin(10, 5)) << endl;
 	cout << (10 == bin(5, 2)) << endl;
 	cout << (126 == bin(9, 4)) << endl;
-	cout << (4 == bin(4, 1)) << endl;
 	cout << (5005 == bin(15, 9)) << endl;
 
 	return 0;

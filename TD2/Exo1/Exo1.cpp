@@ -28,6 +28,5 @@ int main() {
 	//Affichage de la puissance dissipee en watts
 	cout << "La puissance dissipee est " << voltage * voltage / resistance << " watts";
 
-
 	return 0;
 }

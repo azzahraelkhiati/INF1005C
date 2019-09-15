@@ -20,7 +20,9 @@ int main() {
 	const int POSITION_LIGNE_INITIALE = 1;
 	const int VALEUR_INITIALE_INDICE = 0;
 	
-	int hauteur, positionLigne, indice;
+	int hauteur = 0,
+		positionLigne = POSITION_LIGNE_INITIALE,
+		indice;
 
 	ifstream myFile;
 	myFile.open("hauteur.txt");
@@ -39,7 +41,6 @@ int main() {
 	triangleFile.open("triangle.txt");
 
 
-	positionLigne = POSITION_LIGNE_INITIALE;
 	while (positionLigne <= hauteur) {
 
 		indice = VALEUR_INITIALE_INDICE;

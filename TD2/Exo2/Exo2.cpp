@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//DESCRIPTION:	PROGRAMME QUI DEMANDE A L'UTILISATEUR D'ENTRER UNE VALEUR N STRICTEMENT POSITIVE, ENSUITE	//
-//				IL VA DEMANDER A L'UTILISATEUR D'ENTRER UNE SUITE COMPOSEE DE N VALEUR(S). FINALEMENT, IL	//
-//				VA RETOURNER LA LONGUEUR DE LA PLUS GRANDE SUITE CROISSANTE									//
+//DESCRIPTION:	PROGRAMME QUI DEMANDE A L'UTILISATEUR D'ENTRER UNE VALEUR ENTIERE POSITIVE < 999, ENSUITE	//
+//				IL VA AFFICHER A L'UTILISATEUR LE CHIFFRE A LA POSITION DES CENTAINES, DES DIZAINES ET DES	//
+//				UNITES.																						//
 //																											//																											//
 //FILE:	  Exo2.cpp																							//
 //AUTHOR: Johnatan Gao																						//
@@ -11,46 +11,41 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
-#include <string>
-#include <typeinfo>
 using namespace std;
 
+bool inRange(int nombreEntree); //Prototype
 
 int main() {
 
 	int nombreEntree;
-	string nombre;
+	
 
 	cout << "Entrer un nombre entre 0 et 999" << endl;
 	cin >> nombreEntree;
 
-	nombre = to_string(nombreEntree);
-
-	while (nombre.length() > 3) {
-
-		cout << "Entrer un nombre entre 0 et 999" << endl;
+	while(!inRange(nombreEntree)) {
+		//nombreEntree = NULL;
+		cout << "Vous devez entrer un nombre entre 0 et 999" << endl;
 		cin >> nombreEntree;
-
-		nombre = to_string(nombreEntree);
-	
 	}
-		if (nombre.length() == 3) {
-			cout << "Nombre aux centaines: " << nombre[0] << endl;
-			cout << "Nombre aux dizaines: " << nombre[1] << endl;
-			cout << "Nombre aux unites: " << nombre[2] << endl;
-		}
-		else if (nombre.length() == 2) {
-			cout << "Nombre aux centaines: 0" << endl;
-			cout << "Nombre aux dizaines: " << nombre[0] << endl;
-			cout << "Nombre aux unites: " << nombre[1] << endl;
-		}
-		else {
-			cout << "Nombre aux centaines: 0" << endl;
-			cout << "Nombre aux dizaines: 0" << endl;
-			cout << "Nombre aux unites: " << nombre[0] << endl;
-		}
-
+	
+	if (inRange(nombreEntree)) {
+		cout << "Nombre aux centaines: " << nombreEntree / 100 << endl;
+		cout << "Nombre aux dizaines: " << (nombreEntree % 100) / 10 << endl;
+		cout << "Nombre aux unites: " << (nombreEntree % 100) % 10 << endl;
+	}
+	
 
 	return 0;
+
+}
+
+bool inRange(int nombreEntree) {
+
+	if (nombreEntree < 0 || nombreEntree > 999 || nombreEntree > INT_MAX || nombreEntree < INT_MIN) {
+		return false;
+	}
+
+	return true;
 
 }

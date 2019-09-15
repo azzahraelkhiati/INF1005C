@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //DESCRIPTION:	PROGRAMME QUI DEMANDE A L'UTILISATEUR D'ENTRER UN TEXTE ET LE PROGRAMME VA AFFICHER LA		//
-//				POSITION DE LAPREMIERE INSTANCE DE "INF" DANS LE TEXTE										//
+//				POSITION DE LA PREMIERE INSTANCE DE "INF" DANS LE TEXTE, PUIS IL VA AFFICHER LA MÊME PHRASE	//
+//				MAIS EN REMPLAÇANT INF PAR LOG.																//
 //																											//
 //FILE:	  Exo5.cpp																							//
 //AUTHOR: Johnatan Gao																						//
