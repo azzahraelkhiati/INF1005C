@@ -24,7 +24,7 @@ int main() {
 	cin >> nombreEntree;
 
 	while(!inRange(nombreEntree)) {
-		//nombreEntree = NULL;
+		cin.clear(); //Missing piece for it to work
 		cout << "Vous devez entrer un nombre entre 0 et 999" << endl;
 		cin >> nombreEntree;
 	}
