@@ -23,7 +23,7 @@ int main() {
 
 	int nombreLettre = VALEUR_INITIALE;
 
-	cout << "Entrer un mot: " << endl;
+	cout << "Entrer quelque chose: " << endl;
 	getline(cin, mot); //Cela accepte les espaces aussi
 
 	cout << "Entrer une lettre" << endl;

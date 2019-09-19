@@ -13,8 +13,6 @@
 #include <cmath>
 using namespace std;
 
-
-
 double bin(double n, double k) {
 
 	const int VALEUR_INITIALE = 1;
@@ -24,10 +22,8 @@ double bin(double n, double k) {
 		nombreBin *= (k + 1) / (n - k);
 	}
 
-	return ceil(nombreBin);
+	return round(nombreBin);
 }
-
-//for(int i = k
 
 int main() {
 
@@ -40,4 +36,3 @@ int main() {
 	return 0;
 
 }
-

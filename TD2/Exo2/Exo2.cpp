@@ -13,7 +13,7 @@
 #include <iostream>
 using namespace std;
 
-bool inRange(int nombreEntree); //Prototype
+bool inRange(int nombreEntree); //Prototype => Fait en sorte que le programme connait l'existence de la fonction
 
 int main() {
 

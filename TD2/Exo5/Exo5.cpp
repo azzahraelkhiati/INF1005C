@@ -20,7 +20,7 @@ int main() {
 	string texte;
 	int position;
 
-	cout << "Entrer une phrase: " << endl;
+	cout << "Entrer une phrase: ";
 	getline(cin, texte);
 
 	position = texte.find("INF");
