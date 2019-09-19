@@ -42,7 +42,8 @@ int main() {
 
 bool inRange(int nombreEntree) {
 
-	if (nombreEntree < 0 || nombreEntree > 999 || nombreEntree > INT_MAX || nombreEntree < INT_MIN) {
+	if (nombreEntree < 0 || 
+		nombreEntree > 999) {
 		return false;
 	}
 

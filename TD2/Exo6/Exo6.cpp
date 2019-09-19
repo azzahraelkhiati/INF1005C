@@ -24,8 +24,9 @@ int main() {
 		positionLigne = POSITION_LIGNE_INITIALE,
 		indice;
 
-	ifstream myFile;
-	myFile.open("hauteur.txt");
+	//ifstream myFile;
+	//myFile.open("hauteur.txt");
+	ifstream myFile("hauteur.txt"); //Cette commande est equivalent aux deux autres
 
 	if (myFile.is_open()) {
 
@@ -37,8 +38,10 @@ int main() {
 		cout << "Impossible d'ouvrir le fichier" << endl;
 	}
 
-	ofstream triangleFile;
-	triangleFile.open("triangle.txt");
+	//ofstream triangleFile;
+	//triangleFile.open("triangle.txt");
+
+	ofstream triangleFile("triangle.txt"); //Cette ligne est l'equivalent des deux autres lignes
 
 
 	while (positionLigne <= hauteur) {
