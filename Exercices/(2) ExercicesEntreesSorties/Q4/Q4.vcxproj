@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{A98181E5-0598-44BC-B715-AA1797D2AD39}</ProjectGuid>
+    <ProjectGuid>{E2BFBB3E-BF48-4E8A-9703-5BD93D09BC8E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Q1</RootNamespace>
+    <RootNamespace>Q4</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -143,7 +143,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Q1.cpp" />
+    <ClCompile Include="Q4.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="poeme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
