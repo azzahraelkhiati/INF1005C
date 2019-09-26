@@ -1,9 +1,13 @@
-/*
-Somme réelle : Soit la somme (voir l'enonce)
+ï»¿/*
+Somme rï¿½elle : Soit la somme (voir l'enonce)
 
-On admet que Sn tend vers +inf. Écrivez un programme
-qui permet de déterminer pour un entier n donné par l’utilisateur le plus petit entier a tel que Sn plus petit ou egale a.
-Vous n’avez pas à considérer les problèmes liés à la précision des calculs.Auteur: Johnatan GaoDate: 2019-09-25
+On admet que Sn tend vers +inf. ï¿½crivez un programme
+qui permet de dï¿½terminer pour un entier n donnï¿½ par lï¿½utilisateur le plus petit entier a tel que Sn plus petit ou egale a.
+Vous nï¿½avez pas ï¿½ considï¿½rer les problï¿½mes liï¿½s ï¿½ la prï¿½cision des calculs.
+
+Auteur: Johnatan Gao
+Date: 2019-09-25
+
 */
 
 #include <iostream>
