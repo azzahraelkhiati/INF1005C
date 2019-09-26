@@ -1,92 +1,63 @@
 /*
-OKAy
+Ecrivez un programme permettant à l’utilisateur de saisir un nombre n et un tableau de
+taille n (fixez une borne supérieure pour la valeur de n, puisque nous n’avons pas vu comment faire
+des tableaux dont la taille n’est pas connue à la compilation). Le programme supprime ensuite les
+doublons et affiche le tableau après la suppression. La suppression des valeurs doit être faite dans une
+fonction séparée, qui ne fait ni lecture du clavier ni affichage à l’écran. Noter qu’une fonction qui
+reçoit un tableau en paramètre peut modifier ce tableau et c’est le tableau original qui sera modifié; la
+fonction devrait donc retourner uniquement le nombre de valeurs qui restent.
+
+Auteur: Johnatan Gao
+Date: 2019-09-26
 */
 
 
 #include <iostream>
-
 using namespace std;
 
-const int TAILLE_MAX = 1000;
-void sDoublons(int args[], int tailleTableau);
-void afficherTableau(int tab[], int n);
+const int MAX_SIZE = 999;
 
-int main() {
+int effacerDoublons(int t[], int &n);
+void afficherTableau(int t[], int n);
 
-	
+int main()
+{
+
+	int tab[MAX_SIZE];
 	int n;
 
-	cout << "Entrer une valeur n (entre 0 et 999): ";
-	cin >> n;
-
-	while (n > TAILLE_MAX) {
-		cout << "Entrer une valeur n (entre 0 et 999): ";
+	do {
+		cout << "Entrer la grandeur du tableau (doit etre plus ou egale a 999) : ";
 		cin >> n;
+	} while (n < 0 || n > 999);
+
+	for (int index = 0; index < n; index++) {
+		cout << "Entrez un nombre du tableau : ";
+		cin >> tab[index];
 	}
 
-	int tab[TAILLE_MAX]; //Initialise le tableau de taille max 
-
-	for (int indexTableau = 0; indexTableau < n; indexTableau++){
-	
-		cout << "Entrer un nombre: ";
-		cin >> tab[indexTableau];
-	}
-
-	cout << "Pour n = " << n;
-	
+	effacerDoublons(tab, n);
 	afficherTableau(tab, n);
-
-	sDoublons(tab, n);
-
-	afficherTableau(tab, n);
-
 }
 
-void sDoublons(int args[], int tailleTableau) {
 
-	int newTab[TAILLE_MAX];
-
-	for (int index = 0; index < tailleTableau; index++) {
-	
-		int tmp = args[index];
-
-		for (int indexN = index; indexN < tailleTableau; indexN++) {
-		
-			if (tmp != args[indexN]) {
-				newTab[indexN] = args[indexN];
-
+int effacerDoublons(int tab[] , int &n) {
+	for (int i = 0; i < n - 1; i++) { 
+		for (int j = i + 1; j < n; j++) {
+			if (tab[i] == tab[j]) {
+				for (int k = j + 1; k <= n; k++) {
+					tab[k - 1] = tab[k];
+				}
+				n--;
+				j--;
 			}
-			else {
-				tailleTableau -= 1;
-			}
-			
-			if (indexN >= tailleTableau) {
-				args = newTab;
-			}
-
 		}
-
-
 	}
-
+	return n;
 }
 
 void afficherTableau(int tab[], int n) {
-
-	for (int index = 0; index < n; index++) {
-		if (index == 0) {
-			cout << " [";
-		}
-
-		cout << tab[index];
-
-		if (index < n - 1) {
-			cout << ",";
-		}
-		else {
-			cout << "]" << endl;
-		}
-
+	for (int i = 0; i < n; i++) {
+		cout << " " << tab[i];
 	}
-
 }

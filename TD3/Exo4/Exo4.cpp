@@ -23,10 +23,9 @@ int main() {
 	bool devine = false;
 
 	cin >> nbADeviner;
-	
-	for (int nbEspace = 0; nbEspace < 50; nbEspace++) { //Pour creer des espaces
-		cout << endl;
-	}
+
+	cout << "\033[2F";
+	cout << string(60, ' ') << "\r";
 
 	do {
 	
