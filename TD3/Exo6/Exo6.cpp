@@ -10,11 +10,12 @@ Date: 2019-09-26
 #include <iostream>
 #include <fstream>
 #include <ostream>
-#include <vector>
+
 
 using namespace std;
 const int MAX_NB_ELEVES = 50;
 
+//Structure d'Eleve
 struct Eleve {
 
 	int matricule,
@@ -22,14 +23,14 @@ struct Eleve {
 		noteLab,
 		noteFinal;
 
-	double moyenne;
+	double moyenne; 
 
 };
 
+//Structure d'une classe qui contient une liste d'Eleve
 struct Classe {
 
-	Eleve listeEleves[MAX_NB_ELEVES];
-
+	Eleve listeEleves[MAX_NB_ELEVES]; 
 	int nbEleve;
 
 };
@@ -37,55 +38,71 @@ struct Classe {
 double calculerMoyenneClasse(Classe classe);
 Eleve trouverMeilleurNoteLab(Classe classe);
 Eleve trouverMeilleurMoyenne(Classe classe);
+void afficherResultat(double moyenneClasse, Eleve meilleurNoteLab, Eleve meilleurMoyenne);
+void ecrireResultat(ofstream& outputFile, double moyenneClasse, Eleve meilleurNoteLab, Eleve meilleurMoyenne);
+void lireFichierClasse(ifstream& inputFile, Classe& classe);
 
 int main() {
 
 	ifstream inputFile("notes.txt");
 	Classe classeEleves;
-	Eleve etudiant;
+
+	lireFichierClasse(inputFile, classeEleves);
+
+	double moyenneClasse = calculerMoyenneClasse(classeEleves);
+	Eleve meilleurNoteLab = trouverMeilleurNoteLab(classeEleves);
+	Eleve meilleurMoyenne = trouverMeilleurMoyenne(classeEleves);
+	ofstream outputFile("evelaution.txt");
+
+	afficherResultat(moyenneClasse, meilleurNoteLab, meilleurMoyenne);
+	ecrireResultat(outputFile, moyenneClasse, meilleurNoteLab, meilleurMoyenne);
+		
+	return 0;
+
+}
+
+void lireFichierClasse(ifstream& inputFile, Classe& classe) {
 
 	if (!inputFile.fail()) {
-		
-		classeEleves.nbEleve = 0;
+
+		classe.nbEleve = 0;
 
 		while (!ws(inputFile).eof()) {
-		
-			inputFile >> classeEleves.listeEleves[classeEleves.nbEleve].matricule
-				>> classeEleves.listeEleves[classeEleves.nbEleve].noteIntra
-				>> classeEleves.listeEleves[classeEleves.nbEleve].noteLab
-				>> classeEleves.listeEleves[classeEleves.nbEleve].noteFinal;
-			
-			classeEleves.nbEleve++;
+
+			inputFile >> classe.listeEleves[classe.nbEleve].matricule
+				>> classe.listeEleves[classe.nbEleve].noteIntra
+				>> classe.listeEleves[classe.nbEleve].noteLab
+				>> classe.listeEleves[classe.nbEleve].noteFinal;
+
+			classe.nbEleve++;
 
 		}
 
-		cout << "La moyenne de la classe est : " << calculerMoyenneClasse(classeEleves) << endl;
-		cout << "L'etudiant ayant la matricule: " << trouverMeilleurNoteLab(classeEleves).matricule << " a la meilleure note " << trouverMeilleurNoteLab(classeEleves).noteLab << " dans les labs" << endl;
-		cout << "L'etudiant ayant la matricule: " << trouverMeilleurMoyenne(classeEleves).matricule << " a la meilleure moyenne " << trouverMeilleurMoyenne(classeEleves).moyenne << endl;
+	}
+}
 
-		ofstream outputFile("evelaution.txt");
-	
-		if (!outputFile.fail()) {
-			outputFile << "La moyenne de la classe est : " << calculerMoyenneClasse(classeEleves) << endl;
-			outputFile << "L'etudiant ayant la matricule: " << trouverMeilleurNoteLab(classeEleves).matricule << " a la meilleure note " << trouverMeilleurNoteLab(classeEleves).noteLab << " dans les labs" << endl;
-			outputFile << "L'etudiant ayant la matricule: " << trouverMeilleurMoyenne(classeEleves).matricule << " a la meilleure moyenne " << trouverMeilleurMoyenne(classeEleves).moyenne << endl;
-		}
-		else {
-			cout << "Ecriture impossible" << endl;
-		}
-		
 
-		outputFile.close();
+void ecrireResultat(ofstream& outputFile, double moyenneClasse, Eleve meilleurNoteLab, Eleve meilleurMoyenne) {
 
+	if (!outputFile.fail()) {
+		outputFile << "La moyenne de la classe est : " << moyenneClasse << endl;
+		outputFile << "L'etudiant ayant la matricule: " << meilleurNoteLab.matricule << " a la meilleure note " << meilleurNoteLab.noteLab << " dans les labs" << endl;
+		outputFile << "L'etudiant ayant la matricule: " << meilleurMoyenne.matricule << " a la meilleure moyenne " << meilleurMoyenne.moyenne << endl;
 	}
 	else {
-		cout << "Fichier introuvable" << endl;
+		cout << "Ecriture impossible" << endl;
 	}
 
-	inputFile.close();
+	outputFile.close();
+
+}
 
 
-	return 0;
+void afficherResultat(double moyenneClasse, Eleve meilleurNoteLab, Eleve meilleurMoyenne) {
+
+	cout << "La moyenne de la classe est : " << moyenneClasse << endl;
+	cout << "L'etudiant ayant la matricule: " << meilleurNoteLab.matricule << " a la meilleure note " << meilleurNoteLab.noteLab << " dans les labs" << endl;
+	cout << "L'etudiant ayant la matricule: " << meilleurMoyenne.matricule << " a la meilleure moyenne " << meilleurMoyenne.moyenne << endl;
 
 }
 
@@ -120,7 +137,7 @@ Eleve trouverMeilleurMoyenne(Classe classe) {
 Eleve trouverMeilleurNoteLab(Classe classe) {
 
 	int meilleurNote = classe.listeEleves[0].noteLab;
-	Eleve meilleurEnLab;
+	Eleve meilleurEnLab = {};
 
 	for (int index = 1; index < classe.nbEleve; index++) {
 	
