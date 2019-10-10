@@ -105,18 +105,22 @@ int main()
 	Personnel listePersonnel = lireFichiers("Infirmiers.txt", "Medecins.txt");
 
 	//TODO: 2 Modifiez le niveau d'expertise du medecin Kyle.
-	modifierNiveauExpertiseMedecin(listePersonnel, "Kyle", 5);
+	modifierNiveauExpertiseMedecin(listePersonnel, "Kyle", 10);
 
 	//TODO: 3 Retirer Lamontagne de l'ensemble du personnel.
 	retirerPersonnel(listePersonnel, "Lamontagne");
 	
 	//TODO: 4 Calucler et afficher la remuneration du medecin le plus experimenté en Dermatologie.
-	cout << calculerRemunerationMedecin(rechercherMedecinPlusExperimentee(listePersonnel, "Dermatologie"));
+	cout << "La remuneration du meilleur medecin est ";
+	cout << calculerRemunerationMedecin(rechercherMedecinPlusExperimentee(listePersonnel, "Dermatologie")) << endl << endl;
 
 	//TODO: 5 Afficher l'ensemble des infirmers.
+	span<const Infirmier> infirmiers(listePersonnel.infirmiers, listePersonnel.nInfirmiers);
+	afficherInfirmiers(infirmiers);
 
 	//TODO: 6 Afficher l'ensemble des medecins.
-	
+	afficherMedecins(listePersonnel);
+
 }
 
 #pragma region "Définitions" //{
@@ -177,7 +181,7 @@ void modifierNiveauExpertiseMedecin(Personnel& personnel, const string& nom, int
 
 	span<Medecin> spanMed(personnel.medecins, personnel.nMedecins);
 
-	for (Medecin m : spanMed) {
+	for (Medecin& m : spanMed) {
 		if (m.nom == nom) {
 			m.specialite.niveau = niveau;
 			break;
@@ -189,42 +193,31 @@ void modifierNiveauExpertiseMedecin(Personnel& personnel, const string& nom, int
 void retirerPersonnel(Personnel& personnel, const string& nom)
 {
 	//TODO: Retirer le médecin ou l'infirmier dont le nom est spécifié en paramètre.  On suppose que le nom identifie de manière unique une personne, médecin ou infirmier.
-
 	span<Medecin> spanMedecin(personnel.medecins, personnel.nMedecins); 
-
 	bool shift = false;
 
 	for (auto&& [index, medecin] : enumerate(spanMedecin)) {
-		
 		if (medecin.nom == nom){
 			shift = true;
 			personnel.nMedecins--;
 		}
-
 		if (shift && index < personnel.nMedecins-1) {
 			spanMedecin[index] = spanMedecin[index+1];
 		}
 	}
 
 	if (!shift) {
-
 		span<Infirmier> spanInfirmier(personnel.infirmiers, personnel.nInfirmiers);
-	
 		for (auto&& [index, infirmier] : enumerate(spanInfirmier)) {
-
 			if (infirmier.nom == nom) {
 				shift = true;
 				personnel.nInfirmiers--;
 			}
-
 			if (shift && index < personnel.nInfirmiers-1) {
 				spanInfirmier[index] = spanInfirmier[index + 1];
 			}
-
 		}
-	
 	}
-	
 }
 
 int calculerRemunerationMedecin(const Medecin& medecin)
@@ -293,26 +286,113 @@ void afficherInformationMedecin(const Medecin& medecin)
 {
 	//TODO: Afficher les informations relatives à un seul medecin, suivant l'exemple de la Figure 1 de l'énoncé.
 
-	cout << medecin.nom 
+	cout << left 
+		<< "|" 
+		<< setw(13) 
+		<< medecin.nom 
+		<< "|" 
+		<< setw(10)
 		<< medecin.horaires 
-		<< medecin.specialite.domaine 
-		<< medecin.specialite.niveau;
+		<< "|"
+		<< setw(20)
+		<< medecin.specialite.domaine
+		<< "|"
+		<< setw(20)
+		<< medecin.specialite.niveau
+		<< "|"
+		<< endl;
 
 }
 
 void afficherInformationInfirmier(const Infirmier& infirmier)
 {
 	//TODO: Afficher les informations relatives à un seul infirmier, suivant l'exemple de la Figure 1 de l'énoncé. 
+
+	cout <<left 
+		<< "|"
+		<< setw(13)
+		<< infirmier.nom 
+		<< "|"
+		<< setw(25)
+		<< infirmier.prenom
+		<< "|"
+		<< setw(26)
+		<< infirmier.nbChambres
+		<< "|"
+		<< endl;
+
+
 }
 
 void afficherMedecins(const Personnel& personnel)
 {
 	//TODO: Afficher les medecins contenus dans le personnel, suivant l'exemple de la Figure 1 de l'énoncé.
+
+	cout << setfill('=') << setw(26) << "";
+	cout << right << "Tableau Medecins"; //16 char
+	cout << right << setfill('=') << setw(26) << "" << endl;
+	cout << left << setfill('=') << setw(68) << "" << endl;
+
+	cout << setfill(' '); //set fill espace
+
+	cout << left
+		<< ""
+		<< setw(14) << "|Nom"
+		<< ""
+		<< setw(11) << "|Horaires"
+		<< ""
+		<< setw(21) << "|Domaine specialite"
+		<< ""
+		<< setw(21) << "|Niveau specialite"
+		<< "|" << endl;
+
+	cout << left << setfill('=') << setw(68) << "" << endl;
+
+	cout << setfill(' '); //set fill espace
+
+	span<const Medecin> spanMed(personnel.medecins, personnel.nMedecins);
+
+	for (Medecin med: spanMed) {
+		afficherInformationMedecin(med);
+	}
+
+	cout << left << setfill('=') << setw(68) << "" << endl;
+	cout << setfill(' '); //set fill espace
 }
 
 void afficherInfirmiers(span<const Infirmier> infirmiers)
 {
 	//TODO: Afficher les infirmiers contenus dans le personnel, suivant l'exemple de la Figure 1 de l'énoncé.
+
+	cout << setfill('=') << setw(25) << "";
+	cout << right << "Tableau Infirmiers"; 
+	cout << right << setfill('=') << setw(25) << "" << endl;
+	cout << left << setfill('=') << setw(68) << "" << endl;
+
+	cout << setfill(' '); //set fill espace
+
+	cout << left
+		<< ""
+		<< setw(14) << "|Nom"
+		<< ""
+		<< setw(26) << "|Prenom"
+		<< ""
+		<< setw(27) << "|Nombre de chambres"
+		<< "|" << endl;
+
+	cout << left << setfill('=') << setw(68) << "" << endl;
+
+	cout << setfill(' '); //set fill espace
+
+
+	for (Infirmier inf : infirmiers) {
+		afficherInformationInfirmier(inf);
+	}
+
+	cout << left << setfill('=') << setw(68) << "" << endl;
+	cout << setfill(' '); //set fill espace
+	cout << endl;
+
 }
 
 #pragma endregion //}
