@@ -143,6 +143,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\FichiersFourni\CodeDemande.cpp" />
+    <ClCompile Include="..\..\FichiersFourni\CodeFourni.cpp" />
+    <ClCompile Include="..\..\FichiersFourni\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\FichiersFourni\CodeDemande.hpp" />
+    <ClInclude Include="..\..\FichiersFourni\CodeFourni.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\FichiersFourni\flight_line.bmp" />
+    <Image Include="..\..\FichiersFourni\flight_line_generator.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
