@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////////////////////////
 /// TD4 Automne 2019.
 /// \file    TD4.cpp
-/// \authors
+/// \authors   Johnatan Gao
 /// \authors   Basé sur un squelette écrit par Sofiene Beji et François-R Boyer
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -127,6 +127,15 @@ int main()
 
 #pragma region "Fonctions" //{
 
+/*
+Fonction: creerMedecin
+
+const string& nom: (IN)
+int horaire: (IN)
+const string& domaine = (IN)
+int niveau = (IN)
+*/
+
 Medecin creerMedecin(const string& nom, int horaires, const string& domaine, int niveau)
 {
 	//TODO: Créer un médecin à partir des informations en paramètres.
@@ -144,6 +153,14 @@ Medecin creerMedecin(const string& nom, int horaires, const string& domaine, int
 	return tmp;
 }
 
+/*
+Fonction: creerInfirmier
+
+const string& nom: (IN)
+const string& prenom: (IN)
+int nbChambre: (IN)
+*/
+
 Infirmier creerInfirmier(const string& nom, const string& prenom, int nbChambres)
 {
 	//TODO: Créer un infirmier à partir des informations en paramètres.
@@ -157,6 +174,13 @@ Infirmier creerInfirmier(const string& nom, const string& prenom, int nbChambres
 	return tmp;
 }
 
+/*
+Fonction ajouterMedecin()
+
+Personnel& personel: (OUT)
+Medecin& medecin: (OUT)
+*/
+
 void ajouterMedecin(Personnel& personnel, const Medecin& medecin)
 {
 	//TODO: Ajouter le medecin dans personnel.
@@ -166,6 +190,13 @@ void ajouterMedecin(Personnel& personnel, const Medecin& medecin)
 
 }
 
+/*
+Fonction ajouterInfirmier()
+
+Personnel& personnel: (OUT)
+const Infirmier& infirmier: (OUT)
+*/
+
 void ajouterInfirmier(Personnel& personnel, const Infirmier& infirmier) 
 {
 	//TODO: Ajouter l'infirmier dans personnel.
@@ -174,6 +205,15 @@ void ajouterInfirmier(Personnel& personnel, const Infirmier& infirmier)
 	personnel.nInfirmiers++;
 
 }
+
+/*
+Fonction modifierNiveauExpertiseMedecin()
+
+Personnel& personnel: (IN/OUT)
+const string& nom: (IN)
+int niveau: (IN)
+
+*/
 
 void modifierNiveauExpertiseMedecin(Personnel& personnel, const string& nom, int niveau)
 {
@@ -190,35 +230,48 @@ void modifierNiveauExpertiseMedecin(Personnel& personnel, const string& nom, int
 
 }
 
+/*
+fonction retirerPersonnel
+
+Personnel& personnel: (IN/OUT)
+const string& nom: (IN)
+*/
+
 void retirerPersonnel(Personnel& personnel, const string& nom)
 {
 	//TODO: Retirer le médecin ou l'infirmier dont le nom est spécifié en paramètre.  On suppose que le nom identifie de manière unique une personne, médecin ou infirmier.
 	span<Medecin> spanMedecin(personnel.medecins, personnel.nMedecins); 
-	bool shift = false;
+	bool found = false;
 
 	for (auto&& [index, medecin] : enumerate(spanMedecin)) {
 		if (medecin.nom == nom){
-			shift = true;
+			found = true;
 			personnel.nMedecins--;
 		}
-		if (shift && index < personnel.nMedecins-1) {
+		if (found && index < personnel.nMedecins-1) {
 			spanMedecin[index] = spanMedecin[index+1];
 		}
 	}
 
-	if (!shift) {
+	if (!found) {
 		span<Infirmier> spanInfirmier(personnel.infirmiers, personnel.nInfirmiers);
 		for (auto&& [index, infirmier] : enumerate(spanInfirmier)) {
 			if (infirmier.nom == nom) {
-				shift = true;
+				found = true;
 				personnel.nInfirmiers--;
 			}
-			if (shift && index < personnel.nInfirmiers-1) {
+			if (found && index < personnel.nInfirmiers-1) {
 				spanInfirmier[index] = spanInfirmier[index + 1];
 			}
 		}
 	}
 }
+
+/*
+fonction calculerRemunerationMedecin
+
+const Medecin& medecin: (IN)
+*/
 
 int calculerRemunerationMedecin(const Medecin& medecin)
 {
@@ -228,6 +281,14 @@ int calculerRemunerationMedecin(const Medecin& medecin)
 
 	return renumeration;
 }
+
+/*
+fonction rechercheMedecinPlusExperimentee
+
+const Personnel& personnel: (IN)
+const string& domaine: (IN)
+
+*/
 
 Medecin rechercherMedecinPlusExperimentee(const Personnel& personnel, const string& domaine)
 {
@@ -246,6 +307,14 @@ Medecin rechercherMedecinPlusExperimentee(const Personnel& personnel, const stri
 
 	return medExpert;
 }
+
+/*
+fonction lireFichiers
+
+const string& nomFichierInfirmier: (IN)
+const string& nomFichierMedecins: (IN)
+
+*/
 
 Personnel lireFichiers(const string& nomFichierInfirmier, const string& nomFichiersMedecins)
 {
@@ -282,6 +351,13 @@ Personnel lireFichiers(const string& nomFichierInfirmier, const string& nomFichi
 	return listPersonnel;
 }
 
+/*
+Fonction afficherInformationMedecin
+
+const Medecin& medecin: (IN)
+
+*/
+
 void afficherInformationMedecin(const Medecin& medecin)
 {
 	//TODO: Afficher les informations relatives à un seul medecin, suivant l'exemple de la Figure 1 de l'énoncé.
@@ -304,6 +380,12 @@ void afficherInformationMedecin(const Medecin& medecin)
 
 }
 
+/*
+Fonction afficherInformationInfirmier
+
+const Infirmier& infirmier: (IN)
+*/
+
 void afficherInformationInfirmier(const Infirmier& infirmier)
 {
 	//TODO: Afficher les informations relatives à un seul infirmier, suivant l'exemple de la Figure 1 de l'énoncé. 
@@ -323,6 +405,12 @@ void afficherInformationInfirmier(const Infirmier& infirmier)
 
 
 }
+
+/*
+Fonction afficherMedecins
+
+const Personnel& personnel: (IN)
+*/
 
 void afficherMedecins(const Personnel& personnel)
 {
@@ -359,6 +447,12 @@ void afficherMedecins(const Personnel& personnel)
 	cout << left << setfill('=') << setw(68) << "" << endl;
 	cout << setfill(' '); //set fill espace
 }
+
+/*
+Fonction affirmierInfirmiers
+
+span<const Infirmier> infirmiers : (IN)
+*/
 
 void afficherInfirmiers(span<const Infirmier> infirmiers)
 {
