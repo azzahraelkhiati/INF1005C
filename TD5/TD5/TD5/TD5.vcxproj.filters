@@ -15,30 +15,35 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\FichiersFourni\CodeDemande.cpp">
+    <Image Include="flight_line.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="flight_line_generator.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\FichiersFourni\CodeFourni.cpp">
+    <ClCompile Include="CodeFourni.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\FichiersFourni\main.cpp">
+    <ClCompile Include="CodeDemande.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\FichiersFourni\CodeFourni.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FichiersFourni\CodeDemande.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
+    <None Include="Documentation.chm">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\FichiersFourni\flight_line.bmp">
-      <Filter>Fichiers de ressources</Filter>
-    </Image>
-    <Image Include="..\..\FichiersFourni\flight_line_generator.bmp">
-      <Filter>Fichiers de ressources</Filter>
-    </Image>
+    <ClInclude Include="CodeFourni.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="CodeDemande.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
