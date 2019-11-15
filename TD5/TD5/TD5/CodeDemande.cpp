@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-/// VOTRE ENTÃŠTE ICI
+/// VOTRE ENTÊTE ICI
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -8,6 +8,8 @@
 #include "CodeFourni.hpp"
 
 #include "CodeDemande.hpp"
+
+#include <iostream>
 
 #include <ciso646>
 #include <cstddef>
@@ -33,37 +35,36 @@ using namespace iter;
 #pragma region "Fonctions" //{
 
 EnteteDib
-lireEnteteFichier ( fstream& fichier )
+lireEnteteFichier(fstream& fichier)
 {
-	// TODO: Lire l'entÃªte DIB du fichier donnÃ© et la retourner.
+	// TODO: Lire l'entête DIB du fichier donné et la retourner.
 	EnteteDib entD = construireDibVide();
 	EnteteBmp entB = construireBmpVide();
 
 	fichier.seekg(sizeof(entB), ios::beg);
-	fichier.read((char*)&entD, sizeof(entD)); //no need to do a huge while loop cause c++ is smart
+	fichier.read((char*)& entD, sizeof(entD)); //no need to do a huge while loop cause c++ is smart
 
 	return entD;
 }
 
 
 void
-lireDonneesImage ( fstream& fichier, Image& image )
+lireDonneesImage(fstream& fichier, Image& image)
 {
 	EnteteDib d = construireDibVide();
 	EnteteBmp b = construireBmpVide();
-	// TODO: Se positionner au dÃ©but du tableau de pixels dans le fichier.
-	fichier.seekg(sizeof(b), ios::beg); //skip the bmp header
-	fichier.seekg(sizeof(d), ios::cur); //skip the dib header
+	// TODO: Se positionner au début du tableau de pixels dans le fichier.
+	fichier.seekg(sizeof(b) + sizeof(d), ios::beg); //skip the bmp header and the div header
 
 	// TODO: Pour chaque ligne de l'image, lire la ligne et sauter le padding.
 	unsigned largeur = image.largeur;
 	unsigned hauteur = image.hauteur;
 	unsigned padding = calculerTaillePadding(image);
-	
+
 	////////////CREATION OF THE MATRIX/////////////
 
 	Pixel** tabPixel = image.pixels;
-	tabPixel = new Pixel*[hauteur];
+	tabPixel = new Pixel * [hauteur];
 
 	for (int h : range(hauteur)) {
 		tabPixel[h] = new Pixel[largeur];
@@ -75,59 +76,62 @@ lireDonneesImage ( fstream& fichier, Image& image )
 			fichier.read((char*) & (tabPixel[hauteur][largeur]), sizeof(tabPixel[hauteur][largeur]));
 		}
 		//skip the padding
-		fichier.seekg(padding, ios::cur);
+		fichier.seekg(padding*sizeof(padding), ios::cur);
 	}
-	
+
 }
 
 
 void
-ecrireDonneesImage ( fstream& fichier, const Image& image )
+ecrireDonneesImage(fstream& fichier, const Image& image)
 {
-	// TODO: Se positionner au dÃ©but du tableau de pixels dans le fichier (aprÃ¨s
-	//       les entÃªtes).
-	EnteteBmp eB = construireEnteteBmp(image);
-	EnteteDib eD = construireEnteteDib(image);
+	// TODO: Se positionner au début du tableau de pixels dans le fichier (après
+	//       les entêtes).
+	EnteteBmp eB = construireBmpVide();
+	EnteteDib eD = construireDibVide();
 
-	// TODO: Ã‰crire les entÃªtes dans le fichier.
-	fichier.seekp(sizeof(eB), ios::beg);
-	fichier.seekp(sizeof(eD), ios::cur);
+	fichier.seekp(sizeof(eB) + sizeof(eD), ios::beg);
 
-	// TODO: Ã‰crire les donnÃ©es (pixels) de l'image dans le fichier.
+	// TODO: Écrire les données (pixels) de l'image dans le fichier.
 	unsigned padding = calculerTaillePadding(image);
+	Pixel** tabPixel = image.pixels;
+	int octetVide = 0;
 
 	for (int hauteur : range(image.hauteur)) {
+		Pixel* row = tabPixel[hauteur];
 		for (int largeur : range(image.largeur)) {
-			fichier.write((char*) & (image.pixels[hauteur][largeur]), sizeof(image.pixels[hauteur][largeur]));
+			Pixel p = row[largeur];
+			fichier.write((char*)&p, sizeof(p));
 		}
-		fichier.write(0, sizeof(padding));
+		fichier.write((char*) &octetVide, sizeof(padding)); //For the padding
 	}
 
-	// TODO: Pour chaque ligne de l'image, Ã©crire la ligne puis Ã©crire des bytes
-	//       Ã  zÃ©ro pour le padding.
+	// TODO: Pour chaque ligne de l'image, écrire la ligne puis écrire des bytes
+	//       à zéro pour le padding.
 }
 
 
 void
-ecrireImage ( const string& nomFichier, const Image& image, bool& ok )
+ecrireImage(const string& nomFichier, const Image& image, bool& ok)
 {
-	// TODO: Ouvrir un fichier en Ã©criture binaire.
-	fstream fichier(nomFichier, ios::out || ios::binary);
+	// TODO: Ouvrir un fichier en écriture binaire.
+	fstream fichier(nomFichier, ios::out | ios::binary);
 
 	if (!fichier.fail()) {
+		
 		fichier.seekp(0, ios::beg);
-		// Si l'ouverture n'a pas Ã©chouÃ©e :
-			// TODO: Construire les entÃªtes Ã  partir de l'image.
-			EnteteBmp eB = construireEnteteBmp(image);
-			EnteteDib eD = construireEnteteDib(image);
-
-			// TODO: Ã‰crire les entÃªtes dans le fichier.
-			fichier.write((char*)&eB, sizeof(eB));
-			fichier.write((char*)&eD, sizeof(eD));
-
-			// TODO: Ã‰crire les donnÃ©es (pixels) de l'image dans le fichier.
-			ecrireDonneesImage(fichier, image);
-
+		// Si l'ouverture n'a pas échouée :
+			// TODO: Construire les entêtes à partir de l'image.
+		EnteteBmp eB = construireEnteteBmp(image);
+		EnteteDib eD = construireEnteteDib(image);
+		
+		// TODO: Écrire les entêtes dans le fichier.
+		fichier.write((char*) &eB, sizeof(eB));
+		fichier.write((char*) &eD, sizeof(eD));
+		
+		// TODO: Écrire les données (pixels) de l'image dans le fichier.
+		ecrireDonneesImage(fichier, image);
+		
 	}
 	else {
 		ok = false;
@@ -136,57 +140,68 @@ ecrireImage ( const string& nomFichier, const Image& image, bool& ok )
 
 
 Image
-allouerImage ( unsigned largeur, unsigned hauteur )
+allouerImage(unsigned largeur, unsigned hauteur)
 {
+
+	Image img = {};
 	// Si la largeur ET la hauteur ne sont pas nulles :
-		// TODO: Affecter les dimensions Ã  l'image.
-		
+	if (largeur != 0 && hauteur != 0) {
+	// TODO: Affecter les dimensions à l'image.
+		img.largeur = largeur;
+		img.hauteur = hauteur;
 		// TODO: Allouer un tableau dynamique de pixels pour l'image.
 		//       On veut Image::hauteur de lignes qui ont chacune
 		//       Image::largeur de pixels.
-	return {}; // TODO: Retourner ce qu'il faut.
+		img.pixels = new Pixel*[hauteur];
+		for (int i : range(hauteur)) {
+			img.pixels[i] = new Pixel[largeur];
+		}
+	
+	}
+		
+	return img; // TODO: Retourner ce qu'il faut.
 }
 
 
 void
-desallouerImage ( Image& image )
+desallouerImage(Image& image)
 {
 	// Si le tableau dynamique de l'image n'est pas nul :
-		// TODO: DÃ©sallouer le tableau 2D.
+		// TODO: Désallouer le tableau 2D.
 }
 
 
 Image
-copierImage ( const Image& image )
+copierImage(const Image& image)
 {
-	// TODO: Allouer une image de la mÃªme taille que celle donnÃ©e.
-	
+	// TODO: Allouer une image de la même taille que celle donnée.
+
 	// TODO: Copier tous les pixels.
 	return {}; // TODO: Retourner ce qu'il faut.
 }
 
 
 Image
-lireImage ( const string& nomFichier, bool& ok )
+lireImage(const string& nomFichier, bool& ok)
 {
 	// TODO: Ouvrir le fichier en lecture binaire.
-	
-	// Si l'ouverture n'a pas Ã©chouÃ©e :
-		// TODO: Lire l'entÃªte DIB.
-		
+
+	// Si l'ouverture n'a pas échouée :
+		// TODO: Lire l'entête DIB.
+
 		// TODO: Allouer une image selon le contenu du DIB.
-		
+
 		// TODO: Lire les pixels du fichier.
 	return {};  // TODO: Retourner ce qu'il faut.
 }
 
 
 Image
-extraireRectangle ( const Image& image, const Rectangle& zone )
+extraireRectangle(const Image& image, const Rectangle& zone)
 {
-	// Si la zone demandÃ©e est valide :
-		// TODO: Allouer une image de la taille de la zone Ã  extraire.
-		
+	// Si la zone demandée est valide :
+		// TODO: Allouer une image de la taille de la zone à extraire.
+
 		// TODO: Copier les pixels de la zone.
 	return {};  // TODO: Retourner ce qu'il faut.
 }
@@ -194,4 +209,3 @@ extraireRectangle ( const Image& image, const Rectangle& zone )
 #pragma endregion //}
 
 #pragma endregion //}
-
