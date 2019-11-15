@@ -47,7 +47,7 @@ int main ( )
 
 	cout << "---- PARTIE 2 ----" << "\n";
 
-	//executerPartie2();
+	executerPartie2();
 
 	cout << "\n";
 
@@ -129,28 +129,52 @@ void executerPartie2 ( )
 
 	cout << "Entrez '" << commandeFin << "' comme nom d'image pour quitter." << "\n\n";
 
-	// Tant que l'utilisateur n'entre pas «commandeFin» :
-		// TODO: Demander et lire le nom de l'image à extraire.
+	cout << "Entrez le nom d'image ";
 
+	string suffixExtraire = "";
+	cin >> suffixExtraire; //le nom de l'image
+	// Tant que l'utilisateur n'entre pas «commandeFin» :
+	//while (suffixExtraire != commandeFin)
+	//{
+		// TODO: Demander et lire le nom de l'image à extraire.
+		
+		
 		// TODO: Construire le nom de fichier de l'image extraite en utilisant
 		//       la fonction construireNomFichierResultat()
+		string nomFichierExtrait = construireNomFichierResultat(nomFichierOriginal, suffixExtraire);
 
 		// TODO: Demander et lire les coins du rectangle à extraire.
 		//       ex.: Coin inferieur gauche (x y) : 580 410
+		cout << "Entrer coin inferieur et superieur";
+		int coinXGauche, coinXDroit, coinYGauche, coinYDroit;
+		cin >> coinXGauche >> coinYGauche >> coinXDroit >> coinYDroit;
+
+		Rectangle rect = { {coinXGauche, coinYGauche}, {coinXDroit, coinYDroit} };
 
 		// TODO: Extraire le rectangle de l'image original.
+		Image imageOriginale = lireImage(nomFichierOriginal,ok);
+		Image imgExtraire = extraireRectangle(imageOriginale,rect);
 
 		// TODO: Écrire l'image extraite dans un fichier. Afficher la réussite
 		//       ou l'échec de l'écriture.
+		ecrireImage(nomFichierExtrait, imgExtraire, ok);
+
 
 		// TODO: Marquer le rectangle extrait sur l'image original (tracer le
 		//       contour sur la grande image). Utiliser une ligne noire.
 
+
+		tracerContourRectangle(imageOriginale, noir, rect, EPAISSEUR_TRAIT);
+
 		// TODO: Écrire (écraser) le fichier de la grande image modifiée.
 		//       Le nom du fichier est donné par « nomFichierPartie2 ».
+		ecrireImage(nomFichierPartie2, imageOriginale, ok);
+
+	}
+	
 
 	// N'oubliez pas de faire les désallocations nécessaires! (dans la boucle et à l'extérieur)
-}
+//}
 
 
 /**

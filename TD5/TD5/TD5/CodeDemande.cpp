@@ -71,7 +71,7 @@ lireDonneesImage(fstream& fichier, Image& image)
 			image.pixels[hauteur][largeur] = p;
 		}
 		//skip the padding
-		fichier.seekg(sizeof(padding), ios::cur);
+		fichier.seekg(padding, ios::cur);
 	}
 
 }
@@ -90,15 +90,14 @@ ecrireDonneesImage(fstream& fichier, const Image& image)
 	// TODO: Écrire les données (pixels) de l'image dans le fichier.
 	unsigned padding = calculerTaillePadding(image);
 
-	char octetVide;
+	int octetVide = 0;
 
 	for (int hauteur : range(image.hauteur)) {
 		for (int largeur : range(image.largeur)) {
 			Pixel p = image.pixels[hauteur][largeur];
 			fichier.write((char*)&p, sizeof(p));
 		}
-		fichier.write((char*)&octetVide, sizeof(padding)); //cette ligne est problematique
-		//fichier.seekg(padding, ios::cur);
+		fichier.write((char*)&octetVide, padding);
 	}
 }
 
@@ -148,7 +147,6 @@ allouerImage(unsigned largeur, unsigned hauteur)
 		for (int i : range(hauteur)) {
 			img.pixels[i] = new Pixel[largeur];
 		}
-	
 	}
 		
 	return img; // TODO: Retourner ce qu'il faut.
@@ -159,7 +157,11 @@ void
 desallouerImage(Image& image)
 {
 	// Si le tableau dynamique de l'image n'est pas nul :
+	if (image.pixels != nullptr) {
 		// TODO: Désallouer le tableau 2D.
+		delete image.pixels;
+		image.pixels = 0;
+	}
 }
 
 
@@ -167,9 +169,16 @@ Image
 copierImage(const Image& image)
 {
 	// TODO: Allouer une image de la même taille que celle donnée.
-
+	Image copie = allouerImage(image.largeur, image.hauteur);
 	// TODO: Copier tous les pixels.
-	return {}; // TODO: Retourner ce qu'il faut.
+
+	for (int hauteur : range(image.hauteur)) {
+		for (int largeur : range(image.largeur)) {
+			copie.pixels[hauteur][largeur] = image.pixels[hauteur][largeur];
+		}
+	}
+
+	return copie; // TODO: Retourner ce qu'il faut.
 }
 
 
@@ -177,25 +186,44 @@ Image
 lireImage(const string& nomFichier, bool& ok)
 {
 	// TODO: Ouvrir le fichier en lecture binaire.
+	fstream fichier;
+	fichier.open(nomFichier, ios::binary | ios::in);
+
+	ok = !fichier.fail();
+
+	Image img = {};
 
 	// Si l'ouverture n'a pas échouée :
+	if (ok) {
 		// TODO: Lire l'entête DIB.
+		EnteteDib enteteDib = lireEnteteFichier(fichier);
 
 		// TODO: Allouer une image selon le contenu du DIB.
-
+		img = allouerImage(enteteDib.largeurImage, enteteDib.hauteurImage);
 		// TODO: Lire les pixels du fichier.
-	return {};  // TODO: Retourner ce qu'il faut.
-}
+		lireDonneesImage(fichier, img);
 
+	}
+		
+	return img;  // TODO: Retourner ce qu'il faut.
+}
 
 Image
 extraireRectangle(const Image& image, const Rectangle& zone)
 {
+	Image img = {};
 	// Si la zone demandée est valide :
+	if (estZoneValide(image, zone)) {
 		// TODO: Allouer une image de la taille de la zone à extraire.
-
+		img = allouerImage(zone.coin2.y - zone.coin1.y , zone.coin2.x - zone.coin1.x);
 		// TODO: Copier les pixels de la zone.
-	return {};  // TODO: Retourner ce qu'il faut.
+		for (int j : range(zone.coin2.x - zone.coin1.x)) {
+			for (int i : range(zone.coin2.y - zone.coin1.y)) {
+				img.pixels[j][i] = image.pixels[zone.coin1.y + j][zone.coin1.x + i];
+			}
+		}
+	}
+	return img;  // TODO: Retourner ce qu'il faut.
 }
 
 #pragma endregion //}
