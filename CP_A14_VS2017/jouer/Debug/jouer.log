@@ -1,0 +1,5 @@
+﻿  faireMarcherVoyageur.cpp
+C:\Tmp\CP\faireMarcherVoyageur.cpp(15,6): warning C4189:  'positionInitX' : variable locale initialisée mais non référencée
+C:\Tmp\CP\faireMarcherVoyageur.cpp(16,6): warning C4189:  'positionInitY' : variable locale initialisée mais non référencée
+C:\Tmp\CP\faireMarcherVoyageur.cpp(57,30): warning C4456:  la déclaration de 'carte' masque la déclaration locale précédente
+C:\Tmp\CP\faireMarcherVoyageur.cpp(49,7): message :  voir la déclaration de 'carte'

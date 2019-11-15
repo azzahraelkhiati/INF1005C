@@ -1,0 +1,4 @@
+﻿  test.cpp
+C:\Tmp\CP\test.cpp(142,36): warning C5040:  les spécifications d'exceptions dynamiques sont valides uniquement en C++14 et dans les versions antérieures ; traitement en tant que noexcept(false)
+C:\Tmp\CP\test.cpp(152,41): warning C5040:  les spécifications d'exceptions dynamiques sont valides uniquement en C++14 et dans les versions antérieures ; traitement en tant que noexcept(false)
+  test.vcxproj -> C:\Tmp\CP\Debug\Z test.lib

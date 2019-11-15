@@ -1,0 +1,16 @@
+lireCarte.obj
+	?lireCarte@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAY0BC@D@Z (void lireCarte(const string&, char [9][18])
+	?test_lireCarte@@YAXXZ (void  test_lireCarte())
+verifierPeutMarcher.obj
+	?verifierPeutMarcher@@YA_NQAY0BC@$$CBDHH@Z (bool verifierPeutMarcher(char [9][18],int,int)
+	?test_verifierPeutMarcher@@YAXXZ (void verifierPeutMarcher())
+faireMarcherVoyageur.obj
+	?faireMarcherVoyageur@@YAHQAY0BC@$$CBDAAH1@Z (int faireMarcherVoyageur(char [9][18], int&, int&))
+	?test_faireMarcherVoyageur@@YAXXZ (void test_faireMarcherVoyageur())
+jouer.obj
+	?afficherCarte@@YAXQAY0BC@$$CBDHH@Z (void afficherCarte(char [9][18], int, int)
+	?prochainDeplacement@@YAXAAH0@Z (void prochainDeplacement(int&, int&))
+	?fixerDeplacementInteractif@@YAXXZ (void fixerDeplacementInteractif(void))
+	?fixerListeDeDeplacement@@YAXQAY01$$CBHH@Z (void fixerListeDeDeplacement(int [][2], int))
+	?test_tout@@YAXXZ (void test_tout())
+	_main (_main)
