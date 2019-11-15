@@ -41,7 +41,7 @@ lireEnteteFichier(fstream& fichier)
 	EnteteDib entD = construireDibVide();
 	EnteteBmp entB = construireBmpVide();
 
-	fichier.seekg(sizeof(entB), ios::beg);
+	fichier.seekg(sizeof(entB), ios::beg); //skip le bmp
 	fichier.read((char*)& entD, sizeof(entD)); //no need to do a huge while loop cause c++ is smart
 
 	return entD;
@@ -63,20 +63,15 @@ lireDonneesImage(fstream& fichier, Image& image)
 
 	////////////CREATION OF THE MATRIX/////////////
 
-	Pixel** tabPixel = image.pixels;
-	tabPixel = new Pixel * [hauteur];
-
-	for (int h : range(hauteur)) {
-		tabPixel[h] = new Pixel[largeur];
-	}
-
 	for (int hauteur : range(hauteur)) {
 		//read the pixels
 		for (int largeur : range(largeur)) {
-			fichier.read((char*) & (tabPixel[hauteur][largeur]), sizeof(tabPixel[hauteur][largeur]));
+			Pixel p = {};
+			fichier.read((char*) &p, sizeof(p));
+			image.pixels[hauteur][largeur] = p;
 		}
 		//skip the padding
-		fichier.seekg(padding*sizeof(padding), ios::cur);
+		fichier.seekg(sizeof(padding), ios::cur);
 	}
 
 }
@@ -90,24 +85,21 @@ ecrireDonneesImage(fstream& fichier, const Image& image)
 	EnteteBmp eB = construireBmpVide();
 	EnteteDib eD = construireDibVide();
 
-	fichier.seekp(sizeof(eB) + sizeof(eD), ios::beg);
+	fichier.seekp(sizeof(eB) + sizeof(eD), ios::beg); //skip the padding
 
 	// TODO: Écrire les données (pixels) de l'image dans le fichier.
 	unsigned padding = calculerTaillePadding(image);
-	Pixel** tabPixel = image.pixels;
-	int octetVide = 0;
+
+	char octetVide;
 
 	for (int hauteur : range(image.hauteur)) {
-		Pixel* row = tabPixel[hauteur];
 		for (int largeur : range(image.largeur)) {
-			Pixel p = row[largeur];
+			Pixel p = image.pixels[hauteur][largeur];
 			fichier.write((char*)&p, sizeof(p));
 		}
-		fichier.write((char*) &octetVide, sizeof(padding)); //For the padding
+		fichier.write((char*)&octetVide, sizeof(padding)); //cette ligne est problematique
+		//fichier.seekg(padding, ios::cur);
 	}
-
-	// TODO: Pour chaque ligne de l'image, écrire la ligne puis écrire des bytes
-	//       à zéro pour le padding.
 }
 
 
@@ -119,7 +111,7 @@ ecrireImage(const string& nomFichier, const Image& image, bool& ok)
 
 	if (!fichier.fail()) {
 		
-		fichier.seekp(0, ios::beg);
+		fichier.seekp(0, ios::beg); //On se place au debut
 		// Si l'ouverture n'a pas échouée :
 			// TODO: Construire les entêtes à partir de l'image.
 		EnteteBmp eB = construireEnteteBmp(image);
