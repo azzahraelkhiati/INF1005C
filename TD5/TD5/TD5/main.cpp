@@ -129,13 +129,14 @@ void executerPartie2 ( )
 
 	cout << "Entrez '" << commandeFin << "' comme nom d'image pour quitter." << "\n\n";
 
-	cout << "Entrez le nom d'image ";
+	cout << "Entrez le nom d'image: ";
 
 	string suffixExtraire = "";
 	cin >> suffixExtraire; //le nom de l'image
+
 	// Tant que l'utilisateur n'entre pas «commandeFin» :
-	//while (suffixExtraire != commandeFin)
-	//{
+	while (suffixExtraire != commandeFin)
+	{
 		// TODO: Demander et lire le nom de l'image à extraire.
 		
 		
@@ -145,11 +146,16 @@ void executerPartie2 ( )
 
 		// TODO: Demander et lire les coins du rectangle à extraire.
 		//       ex.: Coin inferieur gauche (x y) : 580 410
-		cout << "Entrer coin inferieur et superieur";
+		cout << "Entrer coin inferieur et superieur (coinXGauche coinYGauche coinXDroit coinYDroit): ";
 		int coinXGauche, coinXDroit, coinYGauche, coinYDroit;
+
 		cin >> coinXGauche >> coinYGauche >> coinXDroit >> coinYDroit;
 
-		Rectangle rect = { {coinXGauche, coinYGauche}, {coinXDroit, coinYDroit} };
+		Rectangle rect = {};
+		rect.coin1.x = coinXGauche;
+		rect.coin1.y = coinYGauche;
+		rect.coin2.x = coinXDroit;
+		rect.coin2.y = coinYDroit;
 
 		// TODO: Extraire le rectangle de l'image original.
 		Image imageOriginale = lireImage(nomFichierOriginal,ok);
@@ -162,19 +168,22 @@ void executerPartie2 ( )
 
 		// TODO: Marquer le rectangle extrait sur l'image original (tracer le
 		//       contour sur la grande image). Utiliser une ligne noire.
-
-
 		tracerContourRectangle(imageOriginale, noir, rect, EPAISSEUR_TRAIT);
 
 		// TODO: Écrire (écraser) le fichier de la grande image modifiée.
 		//       Le nom du fichier est donné par « nomFichierPartie2 ».
 		ecrireImage(nomFichierPartie2, imageOriginale, ok);
 
+		cout << "Entrez '" << commandeFin << "' comme nom d'image pour quitter." << "\n\n";
+		cout << "Entrez le nom d'image: ";
+
+		cin >> suffixExtraire;
+
 	}
 	
 
 	// N'oubliez pas de faire les désallocations nécessaires! (dans la boucle et à l'extérieur)
-//}
+}
 
 
 /**

@@ -186,8 +186,7 @@ Image
 lireImage(const string& nomFichier, bool& ok)
 {
 	// TODO: Ouvrir le fichier en lecture binaire.
-	fstream fichier;
-	fichier.open(nomFichier, ios::binary | ios::in);
+	fstream fichier(nomFichier, ios::binary | ios::in);
 
 	ok = !fichier.fail();
 
